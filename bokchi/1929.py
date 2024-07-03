@@ -1,4 +1,4 @@
-# 소수 구하기
+# 소수 구하기 실버 3
 import sys
 input = sys.stdin.readline
 
