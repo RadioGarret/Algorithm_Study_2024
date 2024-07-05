@@ -29,12 +29,12 @@ def dijkstra(start):
     while queue:
         dist, current = heapq.heappop(queue)
         
+        if distances[current] < dist:
+            continue
+            
         for next_node, next_dist in graph_dict[current].items():
             # if sight[next_node] == 1:
                 # continue
-            
-            if distances[current] < dist:
-                continue
             
             new_dist = dist + next_dist
             if distances[next_node] > new_dist:

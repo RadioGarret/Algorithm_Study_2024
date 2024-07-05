@@ -51,8 +51,4 @@ for k, v in position_dict.items():
 
 
 print()
-    
-
-
-
 print()
