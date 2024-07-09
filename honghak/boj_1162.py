@@ -1,42 +1,48 @@
+"""
+4 4 1
+1 2 10
+2 4 10
+1 3 1
+3 4 100
+"""
+
 import sys
-sys.stdin = open("honghak/boj_1162_input.txt", "r")
+sys.stdin = open("/Users/hong/Documents/git/Algorithm_Study_2024/honghak/boj_1162_input.txt", "r")
 
 import sys
 input = sys.stdin.readline
-import heapq
+from collections import deque
 
-INF = sys.maxsize
 N, M, K = map(int, input().split())
 
-graph = [[] for _ in range(N+1)]
-distances = [[INF for _ in range(K+1)] for _ in range(N+1)]
+graph_dict = {node : {} for node in range(1, N+1)}
 
 for _ in range(M):
     i, j, w = map(int, input().split())
-    graph[i].append((w,j))
-    graph[j].append((w,i))
-    
-def dijkstra(start):
-    queue = []
-    count = 0
-    distances[start][count] = 0
-    heapq.heappush(queue, [0, start, count])
+    graph_dict[i][j] = w
 
-    while queue:
-        dist, current, count = heapq.heappop(queue)
+queue = deque()
+queue.append([0, 1, K])
 
-        if distances[current][count] < dist:
-            continue
+INF = int(1e+12)
+distances = [INF for _ in range(N+1)]
+distances[1] = 0
 
-        for next_dist, next_node in graph[current]:
-            new_dist = dist + next_dist
-            if distances[next_node][count] > new_dist:
-                distances[next_node][count] = new_dist
-                heapq.heappush(queue, [new_dist, next_node, count])
+while queue:
+    dist, current, remain_k = queue.popleft()
 
-            if count < K and distances[next_node][count+1] > dist:
-                distances[next_node][count+1] = dist
-                heapq.heappush(queue, [dist, next_node, count + 1])
-                
-dijkstra(1)
-print(min(distances[N]))
+    # if distances[current] < dist:
+    #     continue
+
+    for next_node, next_dist in graph_dict[current].items():
+        new_dist = dist + next_dist
+        if distances[next_node] > new_dist:
+            distances[next_node] = new_dist
+            queue.append([new_dist, next_node, remain_k])
+
+        if remain_k > 0:
+            if distances[next_node] > dist:
+                distances[next_node] = dist
+                queue.append([dist, next_node, remain_k - 1])
+
+print(distances[N])

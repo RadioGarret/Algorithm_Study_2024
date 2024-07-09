@@ -1,3 +1,6 @@
+from typing import Optional
+from collections import deque
+
 class Solution:
     def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
         queue = deque()
