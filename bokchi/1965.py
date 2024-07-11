@@ -1,7 +1,6 @@
 """
 상자넣기
 """
-
 import sys
 input = sys.stdin.readline
 sys.setrecursionlimit(100000)
@@ -16,10 +15,11 @@ sys.setrecursionlimit(100000)
 #         ret = max(ret,recur(cur + 1, cur) + 1)
 #     return ret
 
-def recur(cur, prev):
+
+def recur(cur, prev): # cur,  (1, 0), (2, 0) (3, 0), (2 ,1)
     if cur == n + 1:
         return 0
-    if memo[cur][prev] != -1:
+    if memo[cur][prev] != -1: # (cur, prev)
         return memo[cur][prev]
     ret = 0
     ret = max(ret, recur(cur + 1, prev))
@@ -31,4 +31,5 @@ def recur(cur, prev):
 n = int(input())
 arr = [0] + list(map(int, input().split()))
 memo = [[-1] * (n + 1) for _ in range(n + 1)]
+
 print(recur(1, 0))
