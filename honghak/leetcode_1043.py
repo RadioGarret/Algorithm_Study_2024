@@ -1,4 +1,34 @@
 from typing import List
+<<<<<<< HEAD
+from collections import deque
+
+class Solution:
+    def maxSumAfterPartitioning(self, arr: List[int], k: int) -> int:
+        len_arr = len(arr)
+
+        init_arr_idx = []
+        for _ in range(len_arr // k):
+            init_arr_idx.append(k)
+        init_arr_idx.append(len_arr % k)
+
+        visited = set()
+        visited.add(init_arr_idx)
+
+        queue = deque()
+        queue.append(init_arr_idx)
+
+        while queue:
+            arr_idxs = queue.popleft()
+            
+
+        
+
+        print()
+
+        pass
+
+
+=======
 
 class Solution:
     def maxSumAfterPartitioning(self, arr: List[int], k: int) -> int:
@@ -19,6 +49,7 @@ class Solution:
         return dp[-1]
     
     
+>>>>>>> f0ea61c7b4c8d408ec5b2400fbe8e40aa8f34623
 if __name__ == "__main__":
     sol = Solution()
     print(sol.maxSumAfterPartitioning(arr = [1,15,7,9,2,5,10], k = 3))
