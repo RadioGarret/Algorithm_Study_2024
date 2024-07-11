@@ -4,7 +4,7 @@ class Solution:
 
         n = len(nums)
 
-        for number in range (n+1)
+        for number in range (n+1):
 
             if number not in num_set:
                 return number

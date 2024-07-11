@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "../../../Leetcode"
+		},
+		{
+			"name": "Algorithm_Study_2024",
+			"path": ".."
+		},
+		{
+			"name": "Algorithm_study",
+			"path": "../../../Leetcode/Algorithm_study"
+		}
+	],
+	"settings": {}
+}
