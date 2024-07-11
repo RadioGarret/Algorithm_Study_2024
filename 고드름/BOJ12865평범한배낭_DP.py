@@ -1,22 +1,13 @@
-def knapsack(N, K, items):
-    # DP 테이블 초기화
-    dp = [[0] * (K + 1) for _ in range(N + 1)]
+N, K = list(map(int, input().split()))
+products = [list(map(int, input().split())) for _ in range(N)]
 
-    # DP 테이블 채우기
-    for i in range(1, N + 1):
-        weight, value = items[i - 1]
-        for w in range(K + 1):
-            if w < weight:
-                dp[i][w] = dp[i - 1][w]
-            else:
-                dp[i][w] = max(dp[i - 1][w], dp[i - 1][w - weight] + value)
+# dp[i] 는 최대 i 무게에서 얻을 수 있는 최대 가치를 의미
+dp = [0] * (K+1)
 
-    return dp[N][K]
+# 물건을 배낭에 넣기
+for weight, value in products:
+    for i in range(K, weight - 1, -1):
+        dp[i] = max(dp[i], dp[i - weight] + value)
 
-
-# 입력 받기
-N, K = map(int, input().split())
-items = [tuple(map(int, input().split())) for _ in range(N)]
-
-# 결과 출력
-print(knapsack(N, K, items))
+answer = dp[K]
+print(answer)
