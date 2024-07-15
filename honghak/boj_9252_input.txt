@@ -1,2 +1,33 @@
 ACAYKP
 CAPCAK
+
+
+    C A P C A K
+A   0 1 1 1 1 1
+C   1 1 1 2 2 2
+A   1 2 2 2 3 3
+Y   1 2 2 2 3 3 
+K   1 2 2 2 3 4
+P   1 2 3 3 3 4
+
+ACAK
+
+count1 = n-1
+count2 = m-1
+res = []
+
+while count1 and count2:
+    if dp[count1][count2] == dp[count1-1][count2-1] + 1 and \
+        dp[count1][count2] != dp[count1-1][count2] and \
+        dp[count1][count2] != dp[count1][count2-1]:
+            count1 -=1
+            count2 -=1
+            res.append(word1[count1])
+
+    if dp[count1][count2] == dp[count1-1][count2]:
+        count1 -=1
+        continue
+    if dp[count1][count2] == dp[count1][count2-1]:
+        count2 -=1
+        continue
+    
