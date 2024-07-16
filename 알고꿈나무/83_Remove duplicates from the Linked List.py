@@ -9,7 +9,7 @@ class Solution:
 
         while current is not None and current.next is not None:
             if current.next.val == current.val:
-                #if the next value is not same to the current value, change the pointer looking at next to the one after
+                #if the next value is not same to the current value, change the pointer looking at next to the one afterg
                 current.next = current.next.next
             else:
                 current = current.next
