@@ -1,7 +1,7 @@
 import sys
 input = sys.stdin.readline
 
-def get_max():
+def get_max(): # O(N^2)
     mx = 1
     # 모든 행에서 연속한 최대값 찾기
     for i in range(n):
