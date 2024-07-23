@@ -5,48 +5,38 @@ import sys
 input = sys.stdin.readline
 import heapq
 
-
 N, M = map(int, input().split())
-sight = list(map(int, input().split()))
-sight[-1] = 0
+visible = list(map(int, input().split()))
+visible[-1] = 0
 
-INF = int(1e+9)
 graph_dict = {node : {} for node in range(N)}
 
 for _ in range(M):
-    i, j, w = map(int, input().split())
-    if sight[j] == 1 or sight[i] == 1:
+    a, b, w = map(int, input().split())
+    if visible[a] == 0 and visible[b] == 0:
+        graph_dict[a][b] = w
+        graph_dict[b][a] = w
+
+INF = int(1e+15)
+queue = []
+heapq.heappush(queue, [0, 0]) # start, dist
+distances = [INF for _ in range(N)]
+distances[0] = 0
+
+while queue:
+    current, dist = heapq.heappop(queue)
+    
+    if distances[current] < dist:
         continue
-    graph_dict[i][j] = w
-    graph_dict[j][i] = w
-
-
-def dijkstra(start):
-    distances = [INF for _ in range(N)]
-    distances[start] = 0
-    queue = [[0, start]]
     
-    while queue:
-        dist, current = heapq.heappop(queue)
-        
-        if distances[current] < dist:
-            continue
+    for next_node, next_dist in graph_dict[current].items():
+        new_dist = dist + next_dist
+        if distances[next_node] > new_dist:
+            distances[next_node] = new_dist
+            heapq.heappush(queue, [next_node, new_dist])
             
-        for next_node, next_dist in graph_dict[current].items():
-            # if sight[next_node] == 1:
-                # continue
             
-            new_dist = dist + next_dist
-            if distances[next_node] > new_dist:
-                distances[next_node] = new_dist
-                heapq.heappush(queue, [new_dist, next_node])
+min_dist = distances[N-1] if distances[N-1] != INF else -1
+print(min_dist)
     
-    return distances
 
-
-distances = dijkstra(0)
-
-if distances[N-1] == INF:
-    print(-1)
-else:
-    print(distances[N-1])
