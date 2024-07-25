@@ -1,50 +1,55 @@
 import sys
+sys.stdin = open("honghak/boj_20303_input.txt", "r")
+
+
+import sys
 input = sys.stdin.readline
-from collections import deque
 
 N, M, K = map(int, input().split())
 weights = list(map(int, input().split()))
-graph_dict = {node: [] for node in range(N+1)}
-for _ in range(M):
+
+
+parents = [i for i in range(N)]
+def find(x):
+    if parents[x] != x:
+        parents[x] = find(parents[x])
+        
+    return parents[x]
+
+def union(x, y):
+    x = find(x)
+    y = find(y)
+    
+    if x < y:
+        parents[y] = x
+    else:
+        parents[x] = y
+        
+        
+for _ in range(K):
     a, b = map(int, input().split())
-    a, b = a-1, b-1
-    graph_dict[a].append(b)
-    graph_dict[b].append(a)
+    union(a-1, b-1)
     
-def get_friends(start):
-    friends = [1, weights[start]]
-    queue = deque()
-    queue.append(start)
-    while queue:
-        current = queue.popleft()
-        visited[current] = 1
-        for next_node in graph_dict[current]:
-            if visited[next_node] == 0:
-                visited[next_node] = 1
-                friends[0] += 1
-                friends[1] += weights[next_node]
-                queue.append(next_node)
     
-    return friends
-
-visited = [0 for _ in range(N)]
-relationships = []
+groups = {}
 for i in range(N):
-    if visited[i] == 1:
-        continue
-    visited[i] = 1
-    relationships.append(get_friends(i))
-
-len_relations = len(relationships)
-
-dp = [[0 for _ in range(K)] for _ in range(len_relations+1)]
-
-for i in range(1, len_relations+1):
-    for j in range(1, K):
-        num, weight = relationships[i-1][0], relationships[i-1][1]
-        if j < num:
-            dp[i][j] = dp[i-1][j] 
+    if i != parents[i]:
+        parent_i = find(i)
+        if parent_i not in groups:
+            groups[parent_i] = [1, weights[i]]
         else:
-            dp[i][j] = max(dp[i-1][j], dp[i-1][j-num] + weight)
-
-print(dp[len_relations][K-1])
+            groups[parent_i] = [groups[parent_i][0] + 1, groups[parent_i][1] + weights[i]]
+        
+dp = [0 for _ in range(K)]
+for key, value in groups.items():
+    k, weight = value[0], value[1]
+    
+    if k >= K-1:
+        continue
+    
+    for j in range(K-1, 0, -1):
+        if j + k <= K-1 and dp[j] != 0:
+            dp[j+k] = max(dp[j+k], dp[j] + weight)
+    dp[k] = max(dp[k], weight)
+    
+print(max(dp))
