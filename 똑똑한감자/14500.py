@@ -34,7 +34,7 @@ def dfs(x, y, tmp, cnt):
             continue
         visited[ny][nx] = True # 방문처리
         dfs(nx, ny, tmp + board[ny][nx], cnt+1)
-        visited[ny][nx] = False # 방문처리 제거
+        visited[ny][nx] = False # 방문처리 제거 (다른 테트로미노 방식으로 해당 칸을 접근할 수 있도록 하기 위함)
 
 # ㅗ 모양 탐색
 def exceptional(x, y):
@@ -48,7 +48,7 @@ def exceptional(x, y):
             continue
         arr.append(board[ny][nx])
 
-    if len(arr) == 4 :
+    if len(arr) == 4:
         arr.sort(reverse=True) # 내림차순으로 정렬하여 가장 작은 값이 맨뒤에 위치
         arr.pop() # 가장 작은 값 제거
         max_val = max(max_val, sum(arr) + board[y][x])
